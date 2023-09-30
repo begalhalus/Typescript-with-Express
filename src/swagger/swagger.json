@@ -1,0 +1,1001 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Documentation Project Kit",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:9001",
+      "description": "Dev Local"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Auth",
+      "description": "Module Auth"
+    },
+    {
+      "name": "Role",
+      "description": "Module Role"
+    },
+    {
+      "name": "Users",
+      "description": "Module Users"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "security": [
+    {
+      "bearerAuth": []
+    },
+    {
+      "superadminIdHeaderAuth": []
+    },
+    {
+      "userIdHeaderAuth": []
+    }
+  ],
+  "paths": {
+    "/user/v1/login": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Endpoints for login on system",
+        "description": "",
+        "requestBody": {
+          "description": "Login object to be login system",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string",
+                    "example": "administrator"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "administrator"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": 200,
+                  "validation": {},
+                  "data": {
+                    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjQzNWJiYzVjZWNiODVlZTRjOTFhYThjIiwibmFtZSI6ImFkbWluaXN0cmF0b3IiLCJpYXQiOjE2ODEyNDcyMjUsImV4cCI6MTY4MTMzMDAyNSwiaXNzIjoia0M3YWVkNkpLZnlUQU1qVnlya3hJMTJDc1hEN1lESWQifQ.NFobmwVdlyd7HJiihOSBtECkcjE-nwYpaD3EPB5xv9E",
+                    "user_id": "6435bbc5cecb85ee4c91aa8c",
+                    "role": {
+                      "id": "64017573cd0d8a0e32433678",
+                      "name": "admin"
+                    },
+                    "name": "administrator",
+                    "username": "administrator",
+                    "last_login": "2023-04-12T03:43:12+07:00"
+                  },
+                  "message": "success"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": 400,
+                  "validation": {},
+                  "data": {},
+                  "message": "Email atau password salah !"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/v1/list": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Endpoints for list users",
+        "description": "",
+        "parameters": [
+          {
+            "name": "users_type",
+            "in": "query",
+            "description": "Sorting by Role",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "users"
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "description": "Search by name, username, role",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page Data",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Limit Data",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Sortby Params Data",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "dir",
+            "in": "query",
+            "description": "Sortby ASC or DESC",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": 200,
+                  "validation": {},
+                  "data": {
+                    "list": [
+                      {
+                        "id": "64363ab5a6b87d18b69bec28",
+                        "created_by": {
+                          "id": "6435bbc5cecb85ee4c91aa8c",
+                          "name": "administrator"
+                        },
+                        "role": {
+                          "id": "643633dd2924fe1452545b42",
+                          "name": "users"
+                        },
+                        "name": "egaaaa",
+                        "created_at": "2023-04-12T04:59:33.991Z",
+                        "updated_at": "2023-04-12T04:59:33.991Z",
+                        "deleted_at": ""
+                      }
+                    ],
+                    "total_page": 1,
+                    "total_data": 1,
+                    "page": 1,
+                    "limit": 10
+                  },
+                  "message": "success"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": 400,
+                  "message": "failed",
+                  "validation": {},
+                  "data": {}
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Unauthorized"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/v1/create": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "Endpoints for create users",
+        "description": "",
+        "requestBody": {
+          "description": "Users object to be created",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "role_id": {
+                    "type": "string",
+                    "example": "643633dd2924fe1452545b42"
+                  },
+                  "name": {
+                    "type": "string",
+                    "example": "Egaaaa"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": 200,
+                  "message": "success",
+                  "validation": {},
+                  "data": {}
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": 400,
+                  "message": "failed",
+                  "validation": {},
+                  "data": {}
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Unauthorized"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/v1/update/{id}": {
+      "put": {
+        "tags": ["Users"],
+        "summary": "Endpoints for update users",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Users ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Vehicle object to be update",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "role_id": {
+                    "type": "string",
+                    "example": "643633dd2924fe1452545b42"
+                  },
+                  "name": {
+                    "type": "string",
+                    "example": "Egaaaa"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": 200,
+                  "message": "success",
+                  "validation": {},
+                  "data": {}
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": 400,
+                  "message": "failed",
+                  "validation": {},
+                  "data": {}
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Unauthorized"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/v1/detail/{id}": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Endpoints for detail users",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Users ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": 200,
+                  "validation": {},
+                  "data": {
+                    "id": "64363ab5a6b87d18b69bec28",
+                    "created_by": {
+                      "id": "6435bbc5cecb85ee4c91aa8c",
+                      "name": "administrator"
+                    },
+                    "role": {
+                      "id": "643633dd2924fe1452545b42",
+                      "name": "users"
+                    },
+                    "name": "egaaaa",
+                    "created_at": "2023-04-12T04:59:33.991Z",
+                    "updated_at": "2023-04-12T04:59:33.991Z",
+                    "deleted_at": ""
+                  },
+                  "message": "success"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": 400,
+                  "message": "failed",
+                  "validation": {},
+                  "data": {}
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Unauthorized"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/v1/profile": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Endpoints for profile users",
+        "description": "",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": 200,
+                  "validation": {},
+                  "data": {
+                    "id": "6435bbc5cecb85ee4c91aa8c",
+                    "role": {
+                      "id": "64017573cd0d8a0e32433678",
+                      "name": "admin"
+                    },
+                    "name": "administrator",
+                    "username": "administrator",
+                    "last_login": "2023-04-12T10:34:42+07:00",
+                    "created_at": "2023-03-03T07:18:11.211Z",
+                    "updated_at": "2023-04-12T03:34:42.764Z",
+                    "deleted_at": ""
+                  },
+                  "message": "success"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": 400,
+                  "message": "failed",
+                  "validation": {},
+                  "data": {}
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Unauthorized"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/v1/soft-delete/{id}": {
+      "delete": {
+        "tags": ["Users"],
+        "summary": "Endpoints for soft-delete users",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Users ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": 200,
+                  "message": "success",
+                  "validation": {},
+                  "data": {}
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": 400,
+                  "message": "failed",
+                  "validation": {},
+                  "data": {}
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Unauthorized"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/v1/role/list": {
+      "get": {
+        "tags": ["Role"],
+        "summary": "Endpoints for list role",
+        "description": "",
+        "parameters": [
+          {
+            "name": "search",
+            "in": "query",
+            "description": "Search by name",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page Data",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Limit Data",
+            "required": false,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Sortby Params Data",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "dir",
+            "in": "query",
+            "description": "Sortby ASC or DESC",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": 200,
+                  "validation": {},
+                  "data": {
+                    "list": [
+                      {
+                        "id": "643633dd2924fe1452545b42",
+                        "name": "users",
+                        "description": "Role Users",
+                        "slug": "users",
+                        "created_at": "2023-04-12T04:30:21.706Z",
+                        "updated_at": "2023-04-12T04:30:21.706Z",
+                        "deleted_at": ""
+                      },
+                      {
+                        "id": "643634632924fe1452545b43",
+                        "name": "admin",
+                        "description": "Role Admin",
+                        "slug": "admin",
+                        "created_at": "2023-04-12T04:32:35.284Z",
+                        "updated_at": "2023-04-12T04:32:35.284Z",
+                        "deleted_at": ""
+                      }
+                    ],
+                    "total_page": 1,
+                    "total_data": 2,
+                    "page": 1,
+                    "limit": 10
+                  },
+                  "message": "success"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": 400,
+                  "message": "failed",
+                  "validation": {},
+                  "data": {}
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Unauthorized"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/v1/role/create": {
+      "post": {
+        "tags": ["Role"],
+        "summary": "Endpoints for create role",
+        "description": "",
+        "requestBody": {
+          "description": "Role Users object to be created",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "users"
+                  },
+                  "description": {
+                    "type": "string",
+                    "example": "Role Users"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": 200,
+                  "message": "success",
+                  "validation": {},
+                  "data": {}
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": 400,
+                  "message": "failed",
+                  "validation": {},
+                  "data": {}
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Unauthorized"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/v1/role/update/{id}": {
+      "put": {
+        "tags": ["Role"],
+        "summary": "Endpoints for update role",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Role ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Role Users object to be update",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "users"
+                  },
+                  "description": {
+                    "type": "string",
+                    "example": "Role Users"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": 200,
+                  "message": "success",
+                  "validation": {},
+                  "data": {}
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": 400,
+                  "message": "failed",
+                  "validation": {},
+                  "data": {}
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Unauthorized"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/v1/role/detail/{id}": {
+      "get": {
+        "tags": ["Role"],
+        "summary": "Endpoints for detail role",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Role ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": 200,
+                  "validation": {},
+                  "data": {
+                    "id": "643633dd2924fe1452545b42",
+                    "name": "users",
+                    "description": "Role Users",
+                    "slug": "users",
+                    "created_at": "2023-04-12T04:30:21.706Z",
+                    "updated_at": "2023-04-12T04:30:21.706Z",
+                    "deleted_at": ""
+                  },
+                  "message": "success"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": 400,
+                  "message": "failed",
+                  "validation": {},
+                  "data": {}
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Unauthorized"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/v1/role/soft-delete/{id}": {
+      "delete": {
+        "tags": ["Role"],
+        "summary": "Endpoints for soft-delete role",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Role ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": 200,
+                  "message": "success",
+                  "validation": {},
+                  "data": {}
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": 400,
+                  "message": "failed",
+                  "validation": {},
+                  "data": {}
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Unauthorized"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
